@@ -6,42 +6,42 @@ imgPool_Heated = base64.decode("""iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AA
 imgPool = base64.decode("""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""")
 
 
-def PumpStatus():
-    PumpStatus = http.get("http://192.168.1.160:8111/api/v1/entity/hass>switch_pool_filter/attribute/power_switch.state")
-    SpaStatus = http.get("http://192.168.1.160:8111/api/v1/entity/hass>switch_spa/attribute/power_switch.state")
-    
-    # Convert the response to boolean
-    PumpStatusBool = PumpStatus.json()
-    SpaStatusBool = SpaStatus.json()
-    
-    if PumpStatusBool and not SpaStatusBool:
-        r = "Pool"
-    elif PumpStatusBool and SpaStatusBool:
-        r = "Spa"
-    else:
-        r = "Off"
-    
-    return str(r)
+def get_pump_status():
+    PumpStatus = http.get("http://192.168.1.160:8111/api/v1/entity/hass>sensor_pool_operating_mode/attribute/string_sensor.value")
+    FilterStatus = http.get("http://192.168.1.160:8111/api/v1/entity/hass>switch_pool_filter/attribute/power_switch.state")
+
+    # body() returns the string; THEN we can replace/strip/upper
+    mode = PumpStatus.body().replace('"', '').strip().upper()
+    is_on = FilterStatus.body().replace('"', '').strip().upper()
+
+    if is_on not in ["TRUE", "ON"]:
+        return "Off"
+
+    if mode == "SPA":
+        return "Spa"
+    if mode in ["POOL", "SPILLOVER"]:
+        return "Pool"
+
+    return "Off"
 
 def HeaterStatus():
-  HeaterStatus = http.get("http://192.168.1.160:8111/api/v1/entity/hass>switch_pool_heater_enabled/attribute/power_switch.state")
-  Heater = HeaterStatus.json() 
-  if Heater: 
-    r = "On"
-  else:
-    r = "Off"
-  return r
+    resp = http.get("http://192.168.1.160:8111/api/v1/entity/hass%3Eswitch_pool_heater_actuator/attribute/power_switch.state")
+    raw = resp.body().replace('"', '').strip().upper()
+
+    if raw in ["TRUE", "ON"]:
+        return "On"
+    return "Off"
   
 def CurrentTemp():
-  url = "http://192.168.1.160:8111/api/v1/entity/hass>sensor_pool_temperature/attribute/string_sensor.value"
-  if PumpStatus() == "Pool":
-    url = "http://192.168.1.160:8111/api/v1/entity/hass>sensor_pool_temperature/attribute/string_sensor.value"
-  if PumpStatus() == "Spa":
-    url = "http://192.168.1.160:8111/api/v1/entity/hass>sensor_spa_temperature/attribute/string_sensor.value"  
- 
-  jsonHeader = http.get(url)
-  Temp = str(jsonHeader.json())
-  return Temp  
+    url = "http://192.168.1.160:8111/api/v1/entity/hass>sensor_pool_water_temperature/attribute/string_sensor.value"
+    if get_pump_status() == "Pool":
+        url = "http://192.168.1.160:8111/api/v1/entity/hass>sensor_pool_water_temperature/attribute/string_sensor.value"
+    if get_pump_status() == "Spa":
+        url = "http://192.168.1.160:8111/api/v1/entity/hass>sensor_spa_temperature/attribute/string_sensor.value"
+
+    resp = http.get(url)
+    Temp = resp.body().replace('"', '').strip()
+    return Temp
 
 def GetImage():
   if HeaterStatus() == "On":
@@ -79,7 +79,7 @@ def main():
               cross_align="center",
 			  children = [
 			    render.Text(
-		          PumpStatus(),
+		          get_pump_status(),
 				),
 			  ],
 			),
