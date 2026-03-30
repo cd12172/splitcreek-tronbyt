@@ -25,7 +25,7 @@ def get_pump_status():
     return "Off"
 
 def HeaterStatus():
-    resp = http.get("http://192.168.1.160:8111/api/v1/entity/hass%3Eswitch_pool_heater_actuator/attribute/power_switch.state")
+    resp = http.get("http://192.168.1.160:8111/api/v1/entity/hass>switch_pool_heater/attribute/power_switch.state")
     raw = resp.body().replace('"', '').strip().upper()
 
     if raw in ["TRUE", "ON"]:
