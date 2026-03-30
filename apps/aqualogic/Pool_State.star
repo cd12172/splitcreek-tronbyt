@@ -22,7 +22,7 @@ def get_pump_status():
     if mode in ["POOL", "SPILLOVER"]:
         return "Pool"
 
-    return "Off"
+    return "Off" 
 
 def HeaterStatus():
     resp = http.get("http://192.168.1.160:8111/api/v1/entity/hass>switch_pool_heater/attribute/power_switch.state")
