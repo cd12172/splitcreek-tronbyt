@@ -10,7 +10,7 @@ AUTH = "Basic a29kaTpr"
 DEFAULT_ART = "https://kodi.wiki/images/1/10/Thumbnail-dark.png"
 
 # CHANGE THIS to "poster", "fanart", "banner", "clearlogo", or "thumbnail"
-PREFER_ART = "banner" 
+PREFER_ART = "thumbnail" 
 
 def main(config):
     # 1. Fetch metadata and ALL art properties
