@@ -48,13 +48,19 @@ def main(config):
             if target.endswith("/"):
                 target = target[:-1] # Strip trailing slash
             
-            # Use the Kodi proxy
-            b64_path = base64.encode(target)
-            proxy_url = "http://%s/image/%s" % (KODI_IP, b64_path)
-            
+            # --- THE FIX STARTS HERE ---
+            if target.startswith("http"):
+                # It's a direct web link (like your tmdb link), use it as-is!
+                proxy_url = target
+            else:
+                # It's a local file path, use the Kodi proxy
+                b64_path = base64.encode(target)
+                proxy_url = "http://%s/image/%s" % (KODI_IP, b64_path)
+            # --- THE FIX ENDS HERE ---
+
             art_res = http.get(url=proxy_url, headers={"Authorization": AUTH})
             if art_res.status_code == 200:
-                art_data = art_res.body()
+                art_data = art_res.body()       
 
     if not art_data:
         art_data = http.get(DEFAULT_ART).body()
