@@ -53,7 +53,7 @@ def main(config):
 
         # Handle Artwork
         art_map = item.get("art", {})
-        priorities = ["clearlogo", "banner", "poster", "thumb", "thumbnail", "fanart"]
+        priorities = ["fanart", "poster",  "clearlogo", "banner", "thumb", "thumbnail"]
         
         raw_target = ""
         for key in priorities:
