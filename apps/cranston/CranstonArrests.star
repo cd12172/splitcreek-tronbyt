@@ -2,13 +2,13 @@
 Cranston Arrests: one recent Cranston RI PD arrest per rotation on the Tronbyt.
 
 Data: cranston-arrests service on Debian (http://192.168.1.160:8131), which polls the
-Cranston PD "Arrest Logs" post hourly and keeps only time, charges, street and arrest
-number (no names, ages or house numbers). The list is cached 15 min here; /next is
+Cranston PD "Arrest Logs" post every 15 min and keeps time, name, age, charges, street
+and arrest number (no house numbers). The list is cached 15 min here; /next is
 called uncached each render to advance the cursor, so each rotation shows the next
 arrest. If /next fails, the index comes from the clock (changes every minute).
 
-Layout (64x32, tom-thumb): CRANSTON + date / charge (marquee) / street (marquee) /
-time + arrest no. Date and time don't both fit on line 1 at 64 px, so time is on line 4.
+Layout (64x32, tom-thumb, 5 lines x 6 px): CRANSTON + date / name + age (marquee) /
+charge (marquee) / street (marquee) / time + arrest no. Date and time don't both fit on line 1 at 64 px, so time is on line 4.
 """
 
 load("encoding/json.star", "json")
@@ -19,6 +19,7 @@ load("time.star", "time")
 BASE = "http://192.168.1.160:8131"
 RED = "#ff3b30"
 GREY = "#9a9a9a"
+GREEN = "#34c759"
 AMBER = "#ffb000"
 BLUE = "#4da3ff"
 FONT = "tom-thumb"
@@ -64,6 +65,9 @@ def main(config):
     parts = when.split(" ")
     date = parts[0] if len(parts) > 0 else ""
     clock = parts[1] if len(parts) > 1 else ""
+    name = e.get("name", "")
+    if name and e.get("age"):
+        name = "%s, %s" % (name, e["age"])
     num = e.get("arrest_no", "").replace("-AR", "")
     num = "#" + num.split("-")[-1] if num else ""
 
@@ -78,6 +82,7 @@ def main(config):
                     text("CRANSTON", RED),
                     text(date, GREY),
                 ]),
+                line(name or "-", GREEN),
                 line(charges, "#ffffff"),
                 line(e.get("street", "") or "Cranston", AMBER),
                 render.Row(expanded = True, main_align = "space_between", children = [
